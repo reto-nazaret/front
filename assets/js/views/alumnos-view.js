@@ -1,7 +1,7 @@
 let data = [];
 
 function obtenerDatos() {
-    return fetch('https://65dee12cff5e305f32a0bfb3.mockapi.io/Profesores')
+    return fetch('https://65dee12cff5e305f32a0bfb3.mockapi.io/alumnos')
         .then(response => response.json())
         .then(datos => {
             data = datos;

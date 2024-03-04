@@ -1,13 +1,17 @@
+const urlParams = new URLSearchParams(window.location.search);
+const id = urlParams.get('id');
+
+
 document.addEventListener('DOMContentLoaded', function() {
     obtenerDatos();
 });
 
-function obtenerDatos() {
-    //Obtener el id recibido
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get('id');
 
-    return fetch(`https://65dee12cff5e305f32a0bfb3.mockapi.io/Profesores/${id}`)
+
+async function obtenerDatos() {
+
+
+    return await customFetch('GET', 'alumnos', id, null)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -21,8 +25,10 @@ function obtenerDatos() {
             document.getElementById('apellido').value = data.apellidos;
             document.getElementById('poblacion').value = data.poblacion;
             document.getElementById('email').value = data.email;
+            document.getElementById('ingles').value = data.ingles;
+            document.getElementById('euskera').value = data.euskera;
             document.getElementById('otraTitulacion').value = data.otra_titulacion;
-            document.getElementById('ciclo').value = data.ciclo;
+            // document.getElementById('ciclo').value = data.ciclo.nombre;
             document.getElementById('vehiculo').checked = data.vehiculo;
 
             console.log(data)
@@ -35,30 +41,26 @@ function obtenerDatos() {
 document.getElementById('formulario').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevent the default form submission behavior
 
-    // Obtener los datos del formulario
-    const formData = new FormData(this);
+    let bodyAlumnos = {
+        id: id,
+        dni: document.getElementById('dni').value,
+        nombre: document.getElementById('nombre').value,
+        apellido: document.getElementById('apellido').value,
+        poblacion: document.getElementById('poblacion').value,
+        email: document.getElementById('email').value,
+        ingles: document.getElementById('ingles').value,
+        euskera: document.getElementById('euskera').value,
+        otraTitulacion: document.getElementById('otraTitulacion').value,
+        id_ciclo: document.getElementById('ciclo').value,
+        vehiculo: document.getElementById('vehiculo').value
+        
+    }
 
-    // Crear un objeto JSON a partir de los datos del formulario
-    const updatedData = {};
-    formData.forEach(function(value, key) {
-        updatedData[key] = value;
-    });
+    
 
-    // Obtener el id del profesor de la URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get('id');
-
-    // Crear los headers
-    const myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNzA5MzQyNjgxfQ.1k0iXk_fz0XQ9eoRmMWi0yTvfuSUMs0t-cihpoJ-600");
-    myHeaders.append("Content-Type", "application/json");
 
     // Realizar la solicitud PUT para actualizar los datos
-    fetch(`https://65dee12cff5e305f32a0bfb3.mockapi.io/Profesores/${id}`, {
-        method: 'PUT',
-        headers: myHeaders, // Add headers here
-        body: JSON.stringify(updatedData)
-    })
+    customFetch('PUT', 'alumnos', null, bodyAlumnos)
     .then(response => {
         if (!response.ok) {
             throw new Error('Error al actualizar los datos');
