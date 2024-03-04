@@ -30,7 +30,6 @@ function handleRowClick(e, row){
 
     link.href = filePath;
 
-    link.target = '_blank';   //Posibilidad de abrir en nueva pestaña.
 
     link.click();
 
