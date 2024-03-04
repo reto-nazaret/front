@@ -30,7 +30,7 @@ async function customFetch(method, endpoint, params=null, body=null) {
         throw new Error("El parámetro 'endpoint' es obligatorio.");
     }
     // Construir la URL con el endpoint
-    let url = ip +'?endpoint=' + encodeURIComponent(endpoint);
+    let url = ip + endpoint;
     // Si hay parámetros adicionales, añadirlos a la URL
     if (params) {
         url += '&' + new URLSearchParams(params);
