@@ -1,7 +1,8 @@
 let data = [];
 
-function obtenerDatos() {
-    return customFetch('GET', 'alumnos', null, null)
+async function obtenerDatos() {
+    
+    return await customFetch("GET", "alumnos")
         .then(datos => {
             data = datos;
             console.log(data);
@@ -23,8 +24,18 @@ function handleRowClick(e, row){
 
     console.log("Selected Row ID:", selectedRowId);
 
-    let filePath = `../../formularios/alumnos/edit_alumnos.html?id=${selectedRowId}`; 
-    
+    // Get the full pathname
+    const pathname = window.location.pathname;
+
+    // Split the pathname by '/'
+    const pathSegments = pathname.split('/');
+
+    // Get the first segment (excluding any empty segments)
+    const firstSegment = pathSegments.find(segment => segment.trim() !== '');
+console.log("First segment:", firstSegment);
+    let filePath = `${firstSegment}/formularios/alumnos/edit_alumnos.html?id=${selectedRowId}`;    
+    // let filePath = `/formularios/alumnos/edit_alumnos.html?id=${selectedRowId}`;    
+console.log("filePath: ", filePath);
     let link = document.createElement('a');
 
     link.href = filePath;
@@ -37,7 +48,7 @@ function handleRowClick(e, row){
 
 obtenerDatos().then(() => {
     var table = new Tabulator("#example-table", {
-        data: data,
+        data: data.alumnos,
         layout: "fitColumns",
         pagination: "local",
         paginationSize: 10,
@@ -53,7 +64,7 @@ obtenerDatos().then(() => {
             { title: "Email", field: "email"},
             { title: "Otra Titulacion", field: "otra_titulacion"},
             { title: "Vehiculo", field: "vehiculo"},
-            { title: "Ciclo", field: "ciclo"},
+            { title: "Ciclo", field: "ciclo.id"},
             { title: "Acciones", formatter: boton, hozAlign: "center", cellClick: handleRowClick}
         ],
     });

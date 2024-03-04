@@ -26,32 +26,20 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
         redirect: "follow"
     };
 
-    //A borrar 
-    console.log("iniciado session");
-    localStorage.setItem("token", "testToken");
-    // Redirigir a la página principal (Dashboard)
-    window.location.href = "index.html";
-    // end aborrar
-
-
 
     // Realizar la solicitud a la API de inicio de sesión
-    // fetch("http://localhost/nz_proyecto_test/testApi/?endpoint=login", requestOptions)
-    //     .then((response) => response.json())
-    //     .then((result) => {
-    //         if (result.token) {
-
-    //         //AQUI HAY QUE GUARDAR LOS DATOS DEL USUARIO A PARTIR DE LLAMAR A guardarDatosUsuario DEL HANDLElOCALSTOREAGE.JS ya esta.
-
-
-    //             // Guardar el token en el almacenamiento local del navegador
-    //             localStorage.setItem("token", result.token);
-    //             // Redirigir a la página principal (Dashboard)
-    //             window.location.href = "dashboard.html";
-    //         } else {
-    //             // Mostrar alerta si el inicio de sesión no tiene éxito
-    //             alert("Invalid username or password.");
-    //         }
-    //     })
-    //     .catch((error) => console.error("Error:", error));
+    fetch(ip + "?endpoint=login", requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+            // console.log(result);
+            if (result.loggedIn && result.usuario) {
+                guardarDatosUsuario(result.usuario);
+                window.location.href = "index.html";
+            } else {
+                // hacer una alerta diciendo que habia un error
+                alert("Invalid username or password.");
+                console.error("invalid credentials");
+            }
+        })
+        .catch((error) => console.error("Error:", error));
 });
