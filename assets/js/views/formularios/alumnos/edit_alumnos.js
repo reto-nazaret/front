@@ -1,6 +1,8 @@
 const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get('id');
 
+console.log(id)
+
 
 document.addEventListener('DOMContentLoaded', function() {
     obtenerDatos();
@@ -11,11 +13,13 @@ document.addEventListener('DOMContentLoaded', function() {
 async function obtenerDatos() {
 
 
-    return await customFetch('GET', 'alumnos', id, null)
+    return await customFetch('GET', `alumnos`, id , null)
         .then(response => {
+            console.log(response)
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
+            console.log(response)
             return response.json();
         })
         .then(data => {
