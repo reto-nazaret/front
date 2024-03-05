@@ -1,10 +1,10 @@
 // Función para guardar los datos de usuario en Local Storage
-function guardarDatosUsuario(token, username, nombre, apellidos, idTipoUsuario) {
-    localStorage.setItem('token', token);
-    localStorage.setItem('username', username);
-    localStorage.setItem('nombre', nombre);
-    localStorage.setItem('apellidos', apellidos);
-    localStorage.setItem('idTipoUsuario', idTipoUsuario);
+function guardarDatosUsuario(usuario) {
+    localStorage.setItem('token', usuario.token);
+    localStorage.setItem('username', usuario.username);
+    localStorage.setItem('nombre', usuario.nombre);
+    localStorage.setItem('apellidos', usuario.apellidos);
+    localStorage.setItem('idTipoUsuario', usuario.usuario_tipo.id);
 }
 
 // Función para obtener los datos de usuario del Local Storage
