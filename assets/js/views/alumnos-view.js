@@ -15,6 +15,9 @@ async function obtenerDatos() {
 let boton = function(cell, formatterParams){ //plain text value
     return "<button type='submit' class='btn btn-primary'>Editar</button>";
 };
+let boton2 = function(cell, formatterParams){ //plain text value
+    return "<button type='submit' class='btn btn-danger'>Eliminar</button>";
+};
 
 let selectedRowId = null;
 
@@ -33,7 +36,7 @@ function handleRowClick(e, row){
     // Get the first segment (excluding any empty segments)
     const firstSegment = pathSegments.find(segment => segment.trim() !== '');
 console.log("First segment:", firstSegment);
-    let filePath = `${firstSegment}/formularios/alumnos/edit_alumnos.html?id=${selectedRowId}`;    
+    let filePath = `../../${firstSegment}/formularios/alumnos/edit_alumnos.html?id=${selectedRowId}`;    
     // let filePath = `/formularios/alumnos/edit_alumnos.html?id=${selectedRowId}`;    
 console.log("filePath: ", filePath);
     let link = document.createElement('a');
@@ -65,7 +68,8 @@ obtenerDatos().then(() => {
             { title: "Otra Titulacion", field: "otra_titulacion"},
             { title: "Vehiculo", field: "vehiculo"},
             { title: "Ciclo", field: "ciclo.id"},
-            { title: "Acciones", formatter: boton, hozAlign: "center", cellClick: handleRowClick}
+            { title: "", formatter: boton, hozAlign: "center", cellClick: handleRowClick},
+            { title: "", formatter: boton2, hozAlign: "center", cellClick: handleRowClick},
         ],
     });
 });

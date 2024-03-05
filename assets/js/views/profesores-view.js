@@ -1,8 +1,8 @@
 let data = [];
 
-function obtenerDatos() {
-    return fetch('https://65dee12cff5e305f32a0bfb3.mockapi.io/Profesores')
-        .then(response => response.json())
+async function obtenerDatos() {
+    
+    return await customFetch("GET", "profesores")
         .then(datos => {
             data = datos;
             console.log(data);
@@ -10,10 +10,12 @@ function obtenerDatos() {
         })
         .catch(error => console.error('Error:', error));
 }
-
-
 let boton = function(cell, formatterParams){ //plain text value
     return "<button type='submit' class='btn btn-primary'>Editar</button>";
+};
+
+let boton2 = function(cell, formatterParams){ //plain text value
+    return "<button type='submit' class='btn btn-danger'>Eliminar</button>";
 };
 
 let selectedRowId = null;
@@ -24,20 +26,31 @@ function handleRowClick(e, row){
 
     console.log("Selected Row ID:", selectedRowId);
 
-    let filePath = `../../formularios/profesores/edit_profesores.html?id=${selectedRowId}`; 
-    
+    // Get the full pathname
+    const pathname = window.location.pathname;
+
+    // Split the pathname by '/'
+    const pathSegments = pathname.split('/');
+
+    // Get the first segment (excluding any empty segments)
+    const firstSegment = pathSegments.find(segment => segment.trim() !== '');
+console.log("First segment:", firstSegment);
+    let filePath = `../../${firstSegment}/formularios/profesores/edit_profesores.html?id=${selectedRowId}`;    
+    // let filePath = `/formularios/alumnos/edit_alumnos.html?id=${selectedRowId}`;    
+console.log("filePath: ", filePath);
     let link = document.createElement('a');
 
     link.href = filePath;
 
-    link.target = '_blank';   //Posibilidad de abrir en nueva pestaña.
 
     link.click();
+
+
 }
 
 obtenerDatos().then(() => {
     var table = new Tabulator("#example-table", {
-        data: data,
+        data: data.profesores,
         layout: "fitColumns",
         pagination: "local",
         paginationSize: 10,
@@ -49,7 +62,8 @@ obtenerDatos().then(() => {
             { title: "DNI", field: "dni"},
             { title: "Nombre", field: "nombre"},
             { title: "Apellidos", field: "apellidos"},
-            { title: "Acciones", formatter: boton, hozAlign: "center", cellClick: handleRowClick}
+            { title: "", formatter: boton, hozAlign: "center", cellClick: handleRowClick},
+            { title: "", formatter: boton2, hozAlign: "center"}
         ],
     });
 });

@@ -24,7 +24,7 @@ async function obtenerDatos() {
         })
         .then(data => {
             // Rellenar los valores del formulario con los datos del profesor obtenidos de la API
-            document.getElementById('dni').value = data.dni;
+            document.getElementById('dni').value = data.alumnos.dni;
             document.getElementById('nombre').value = data.nombre;
             document.getElementById('apellido').value = data.apellidos;
             document.getElementById('poblacion').value = data.poblacion;
